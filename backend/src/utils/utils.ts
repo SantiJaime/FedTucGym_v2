@@ -1,0 +1,124 @@
+import { Role } from "../constants/const";
+import type { Request } from "express";
+import type { ZodIssue } from "zod";
+import type { MembersFilter } from "../schemas/members.shema";
+
+// null = sin restricción (Administrador); sin req.user lanza para no abrir el acceso.
+export const gymScope = (req: Request): number | null =>
+  req.user?.role === Role.ADMIN ? null : req.user!.userId;
+
+interface Dates {
+  startDate: string;
+  endDate: string;
+}
+
+export const formatDateForDaterange = ({ startDate, endDate }: Dates): string =>
+  `[${startDate},${endDate})`;
+
+export const subtractDays = (dateStr: string, days: number = 15): string => {
+  const date = new Date(dateStr);
+  date.setDate(date.getDate() - days);
+  return date.toISOString().slice(0, 10);
+};
+
+export const parseErrors = (errors: ZodIssue[]) => {
+  return errors.map((error) => `${error.path}: ${error.message}`).join(" | ");
+};
+export const toNumberOrUndefined = (val: unknown) =>
+  val === undefined ? undefined : Number(val);
+
+export const buildMembersQuery = (
+  filters: MembersFilter,
+  gymId: number,
+  page?: number
+) => {
+  const limit = 20;
+  const offset = page && page > 0 ? (page - 1) * limit : 0;
+  const baseQuery = "SELECT * FROM members_view WHERE id_gym = $1";
+  const values: unknown[] = [gymId];
+  const conditions: string[] = [];
+
+  if (filters.full_name) {
+    conditions.push(`full_name ILIKE $${values.length + 1}`);
+    values.push(`%${filters.full_name}%`);
+  }
+
+  if (filters.id_category) {
+    conditions.push(`id_category = $${values.length + 1}`);
+    values.push(filters.id_category);
+  }
+
+  if (filters.id_level) {
+    conditions.push(`id_level = $${values.length + 1}`);
+    values.push(filters.id_level);
+  }
+
+  if (filters.dni) {
+    conditions.push(`dni = $${values.length + 1}`);
+    values.push(filters.dni);
+  }
+
+  let query = baseQuery;
+  if (conditions.length) {
+    query += " AND " + conditions.join(" AND ");
+  }
+
+  // Sin orden total, un alumno podría repetirse o faltar entre páginas.
+  query += " ORDER BY full_name, id";
+
+  values.push(limit);
+  query += ` LIMIT $${values.length}`;
+
+  values.push(offset);
+  query += ` OFFSET $${values.length}`;
+
+  return { query, values };
+};
+
+export const buildCountMembersQuery = (
+  filters: MembersFilter,
+  gymId: number
+) => {
+  const baseCountQuery = "SELECT COUNT(*) FROM members_view WHERE id_gym = $1";
+  const values: unknown[] = [gymId];
+  const conditions: string[] = [];
+
+  if (filters.full_name) {
+    conditions.push(`full_name ILIKE $${values.length + 1}`);
+    values.push(`%${filters.full_name}%`);
+  }
+
+  if (filters.id_category) {
+    conditions.push(`id_category = $${values.length + 1}`);
+    values.push(filters.id_category);
+  }
+
+  if (filters.id_level) {
+    conditions.push(`id_level = $${values.length + 1}`);
+    values.push(filters.id_level);
+  }
+
+  if (filters.dni) {
+    conditions.push(`dni = $${values.length + 1}`);
+    values.push(filters.dni);
+  }
+
+  let countQuery = baseCountQuery;
+  if (conditions.length) {
+    countQuery += " AND " + conditions.join(" AND ");
+  }
+
+  return { countQuery, values };
+};
+
+export const validateDates = (startDate: string, endDate: string, inscription_date_end: string) => {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const inscriptionEnd = new Date(inscription_date_end);
+
+  start.setHours(0, 0, 0, 0);
+  end.setHours(0, 0, 0, 0);
+  inscriptionEnd.setHours(0, 0, 0, 0);
+
+  return inscriptionEnd < start && start <= end;
+};

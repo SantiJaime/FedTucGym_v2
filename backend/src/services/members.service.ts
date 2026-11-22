@@ -1,0 +1,139 @@
+import { DatabaseError, type QueryResult } from "pg";
+import pool from "../database/db.config";
+import { AppError } from "../errors/app.error";
+import type { Member, UpdateMember } from "../schemas/members.shema";
+import { MembersTournaments } from "../schemas/members_tournaments.schema";
+
+export default class MembersService {
+  public async getById(
+    id: number,
+    gymId: number | null,
+  ): Promise<Member | undefined> {
+    const { rows } = await pool.query(
+      "SELECT * FROM members WHERE id = $1 AND ($2::int IS NULL OR id_gym = $2)",
+      [id, gymId],
+    );
+    return rows[0];
+  }
+
+  public async getByGymId(
+    query: string,
+    values: unknown[],
+    countQuery: string,
+    countValues: unknown[],
+  ): Promise<{ data: FullMemberInfo[]; total: number }> {
+    const [dataResult, countResult]: [
+      QueryResult<FullMemberInfo>,
+      QueryResult<{ count: string }>,
+    ] = await Promise.all([
+      pool.query(query, values),
+      pool.query(countQuery, countValues),
+    ]);
+
+    const data = dataResult.rows;
+    const total = parseInt(countResult.rows[0].count, 10);
+
+    return { data, total };
+  }
+
+  public async create(member: CreateMember): Promise<Member> {
+    const { full_name, birth_date, id_gym, dni, id_level, age, id_category } =
+      member;
+
+    const { rows } = await pool.query(
+      "INSERT INTO members (full_name, birth_date, age, id_category, id_gym, dni, id_level) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *",
+      [full_name, birth_date, age, id_category, id_gym, dni, id_level],
+    );
+    return rows[0];
+  }
+
+  public async update(
+    id: number,
+    member: UpdateMember,
+    gymId: number | null,
+  ): Promise<Member | undefined> {
+    const { full_name, birth_date, dni, id_level } = member;
+    const { rows } = await pool.query(
+      "UPDATE members SET full_name = $1, birth_date = $2, dni = $3, id_level = $4 WHERE id = $5 AND ($6::int IS NULL OR id_gym = $6) RETURNING *",
+      [full_name, birth_date, dni, id_level, id, gymId],
+    );
+    return rows[0];
+  }
+
+  public async delete(id: number, gymId: number | null): Promise<boolean> {
+    const { rowCount } = await pool.query(
+      "DELETE FROM members WHERE id = $1 AND ($2::int IS NULL OR id_gym = $2)",
+      [id, gymId],
+    );
+    return !!rowCount && rowCount > 0;
+  }
+
+  public async registerToTournament(
+    memberId: number,
+    tournamentId: number,
+    gymId: number | null,
+  ): Promise<MembersTournaments | undefined> {
+    try {
+      const { rows } = await pool.query(
+        `INSERT INTO members_tournaments (id_member, id_tournament)
+         SELECT m.id, t.id FROM members m
+         JOIN tournaments t ON t.id = $2
+         WHERE m.id = $1 AND ($3::int IS NULL OR (
+           m.id_gym = $3
+           AND t.inscription_date_end >= (NOW() AT TIME ZONE 'America/Argentina/Buenos_Aires')::date
+         ))
+         RETURNING *`,
+        [memberId, tournamentId, gymId],
+      );
+      return rows[0];
+    } catch (error) {
+      if (error instanceof DatabaseError) {
+        if (error.code === "23505") {
+          throw AppError.conflict("El alumno ya está registrado en el torneo");
+        } else if (error.code === "23503") {
+          throw AppError.notFound("No se encontró al alumno con la ID proporcionada");
+        } else if (error.code === "23502") {
+          throw AppError.notFound("No se encontró el torneo con la ID proporcionada");
+        }
+      }
+      throw error;
+    }
+  }
+
+  public async updateCategory(): Promise<void> {
+    try {
+      await pool.query("CALL actualizar_todas_las_categorias()");
+      return;
+    } catch (error) {
+      if (error instanceof DatabaseError || error instanceof Error) {
+        throw error;
+      }
+      throw new Error("Error de base de datos desconocido", { cause: error });
+    }
+  }
+
+  public async deleteUnpaidInscriptions(): Promise<void> {
+    try {
+      const today = new Date();
+      const formattedDate = today.toLocaleDateString("en-CA", {
+        timeZone: "America/Argentina/Buenos_Aires",
+      });
+      await pool.query(
+        `
+     DELETE FROM members_tournaments mt
+    USING tournaments t
+    WHERE mt.id_tournament = t.id
+      AND mt.paid = false
+      AND $1 > t.inscription_date_end
+        `,
+        [formattedDate],
+      );
+      return;
+    } catch (error) {
+      if (error instanceof DatabaseError || error instanceof Error) {
+        throw error;
+      }
+      throw new Error("Error de base de datos desconocido", { cause: error });
+    }
+  }
+}
