@@ -17,3 +17,6 @@ const addJsExtension = (dir) => {
 };
 
 addJsExtension(directory);
+
+// Vercel empaqueta dist/ sin el package.json de la raíz: sin esto trata los .js como CommonJS.
+fs.writeFileSync(path.join(directory, "package.json"), JSON.stringify({ type: "module" }));
