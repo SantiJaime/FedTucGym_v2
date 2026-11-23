@@ -57,7 +57,12 @@ export default class GoogleSheetsService {
       throw AppError.badGateway("No se pudieron enviar los datos a Google Sheets");
     }
 
+    // Apps Script responde 200 aunque rechace la llamada (p. ej. secreto inválido): hay que mirar el cuerpo.
     const data = await response.json();
+    if (typeof data?.url !== "string") {
+      console.error("Google Sheets rechazó la exportación:", data?.error ?? "respuesta sin url");
+      throw AppError.badGateway("No se pudieron enviar los datos a Google Sheets");
+    }
 
     return data.url;
   }

@@ -11,6 +11,8 @@ const pool = new Pool({
   user: env.PGUSER,
   password: env.PGPASSWORD,
   database: env.PGDATABASE,
+  // shortcut: search_path por opción de conexión; el transaction pooler de Supabase puede rechazarla, pasar a ALTER ROLE ... SET search_path (M4/M5).
+  options: `-c search_path=${env.PGSCHEMA}`,
   connectionTimeoutMillis: 10_000,
   idleTimeoutMillis: 30_000,
 });

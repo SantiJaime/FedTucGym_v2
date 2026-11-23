@@ -14,7 +14,7 @@ frontend/  React 19 + Vite 6 + TypeScript + react-bootstrap
 Backend (`cd backend`):
 - `npm run dev` → `tsx watch src/index.ts`
 - `npm run build` → `tsc && node fix_imports.js` (fix_imports reescribe imports para ESM en `dist/`), `npm start` → `node dist/index.js`
-- Variables requeridas (ver `src/config/env.ts`, falla al arrancar si falta alguna): `PGHOST PGPORT PGUSER PGDATABASE PGPASSWORD PGSCHEMA JWT_SECRET JWT_REFRESH_SECRET COOKIE_SECRET NODE_ENV SHEETS_SCRIPT_URL`; `PORT` (3000), `SHEETS_SECRET` (vuelve a ser requerido al cerrar S3) y `CRON_SECRET` opcionales; sin `CRON_SECRET` los endpoints de cron rechazan todo. `.env.example` está incompleto. No leer ni commitear `backend/.env`.
+- Variables requeridas (ver `src/config/env.ts`, falla al arrancar si falta alguna): `PGHOST PGPORT PGUSER PGDATABASE PGPASSWORD PGSCHEMA JWT_SECRET JWT_REFRESH_SECRET COOKIE_SECRET NODE_ENV SHEETS_SCRIPT_URL SHEETS_SECRET`; `SHEETS_SECRET` (requerido, S3 cerrado); `PORT` (3000) y `CRON_SECRET` opcionales; sin `CRON_SECRET` los endpoints de cron rechazan todo. `.env.example` está incompleto. No leer ni commitear `backend/.env`.
 
 Frontend (`cd frontend`):
 - `npm run dev` (Vite, puerto 5173), `npm run build` (`tsc -b && vite build`), `npm run lint`
@@ -86,7 +86,7 @@ Estructura por capas, todas con el mismo patrón:
 Crítico:
 - [x] **S1. Datos personales expuestos**: `GET /members` y los inscriptos por categoría/nivel permitían a cualquier gimnasio leer nombre, DNI y fecha de nacimiento de alumnos ajenos.
 - [x] **S2. Sin control de propiedad al escribir**: un gimnasio podía crear, editar o borrar alumnos ajenos, e inscribirlos o darlos de baja de torneos.
-- [ ] **S3. Google Sheets sin autenticación**: backend hecho (`GET /:tid/sheets` exige login y el POST envía `secret` desde `SHEETS_SECRET`). **Falta**: definir `SHEETS_SECRET` en `backend/.env` y en el hosting (Railway hasta migrar, luego Vercel), y validar `secret` en `doPost` del Apps Script. Hasta entonces el script sigue aceptando escrituras sin credencial. **Bloqueado**: el usuario debe solicitar acceso a la cuenta de Google dueña de la hoja. `SHEETS_SECRET` queda opcional hasta cerrarlo.
+- [x] **S3. Google Sheets sin autenticación**: `GET /:tid/sheets` exige login, el POST envía `secret` desde `SHEETS_SECRET` (requerido) y `doPost` del Apps Script lo valida contra la propiedad `SHEETS_SECRET` antes de tocar la hoja. Probado: un POST sin secreto responde `{"error":"No autorizado"}`. Apps Script responde 200 aunque rechace, por eso `exportTournamentToSheet` falla si la respuesta no trae `url`. *(verificar)* que `SHEETS_SCRIPT_URL` y `SHEETS_SECRET` estén cargadas en Vercel y que la implementación vieja del script esté archivada.
 - [ ] **S4. Registro de pagos — PENDIENTE DE REVISIÓN**: la limpieza automática de impagas sigue pausada porque ningún flujo del código marca `paid = true`. El usuario recuerda que cada gimnasio registraba sus alumnos pagados, pero falta confirmar cómo (no existe endpoint ni pantalla para eso). No reactivar la limpieza hasta resolverlo.
 
 Alto:
