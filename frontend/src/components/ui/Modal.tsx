@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const Modal: React.FC<Props> = ({ show, onHide, onExited, title, children }) => (
-  <Transition show={show} afterLeave={onExited}>
+  <Transition show={show} appear afterLeave={onExited}>
     <Dialog onClose={onHide} className="relative z-50">
       <TransitionChild
         enter="transition-opacity duration-200"
