@@ -1,4 +1,4 @@
-import { Container, Spinner } from "react-bootstrap";
+import { Spinner } from "../components/ui/Spinner";
 import useUsers from "../hooks/useUsers";
 import useMembers from "../hooks/useMembers";
 import CardComp from "../components/CardComp";
@@ -33,8 +33,8 @@ export default function Alumnos() {
       text: "Esta acción no se puede deshacer",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#16b800",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#15803d",
+      cancelButtonColor: "#dc2626",
       confirmButtonText: "Si, eliminar",
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
@@ -57,16 +57,16 @@ export default function Alumnos() {
   };
 
   return (
-    <Container className="mt-5">
-      <div className="d-flex justify-content-center">
+    <div className="mx-auto mt-12 w-full max-w-7xl px-4 pb-8">
+      <div className="flex justify-center">
         <CardComp user={user} color="danger" textColor="white" />
       </div>
-      <div className="d-flex justify-content-between">
-        <h3>Tabla de alumnos</h3>
+      <div className="flex justify-between">
+        <h3 className="text-xl font-semibold">Tabla de alumnos</h3>
         {user && user.role === "Gimnasio" && <CreateMemberComp />}
       </div>
-      <hr />
-      <h4>Filtrar por:</h4>
+      <hr className="my-4 border-slate-300" />
+      <h4 className="text-lg font-semibold">Filtrar por:</h4>
       <FilterComp
         submitFilter={submitFilter}
         setFilters={setFilters}
@@ -76,19 +76,19 @@ export default function Alumnos() {
         color="danger"
         textColor="white"
       />
-      <hr />
+      <hr className="my-4 border-slate-300" />
       {!loadingFilter ? (
         <>
           {loading ? (
-            <div className="d-flex flex-column align-items-center justify-content-center">
-              <Spinner variant="dark" />
-              <h4>Obteniendo alumnos...</h4>
+            <div className="flex flex-col items-center justify-center">
+              <Spinner />
+              <h4 className="text-lg font-semibold">Obteniendo alumnos...</h4>
             </div>
           ) : !members ||
             (members.length === 0 &&
               membersPagination &&
               membersPagination.total === 0) ? (
-            <h4 className="text-center">No se encontraron alumnos</h4>
+            <h4 className="text-lg font-semibold text-center">No se encontraron alumnos</h4>
           ) : members.length === 0 &&
             membersPagination &&
             membersPagination.total > 0 ? (
@@ -134,6 +134,6 @@ export default function Alumnos() {
           onClose={() => setEditingMember(null)}
         />
       )}
-    </Container>
+    </div>
   );
 }

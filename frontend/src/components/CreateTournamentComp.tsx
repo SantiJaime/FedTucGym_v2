@@ -1,9 +1,8 @@
 import { useFormik } from "formik";
 import { useState } from "react";
-import { Form } from "react-bootstrap";
-import { Calendar2Date, PlusCircle, TagFill } from "react-bootstrap-icons";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { CalendarDays, CirclePlus, Tag } from "lucide-react";
+import { Button } from "./ui/Button";
+import { Modal } from "./ui/Modal";
 import { FormikInputComp } from "./FormikInputComp";
 import { createTournamentValidatorSchema } from "../validation/createTournamentValidatorSchema";
 import { validateDates } from "../utils/extraFunctions";
@@ -54,23 +53,18 @@ const CreateTournamentComp = () => {
     <>
       <Button
         variant="secondary"
-        className="d-flex align-items-center gap-1"
         onClick={handleShow}
       >
-        <PlusCircle />
+        <CirclePlus size={18} />
         <span>Crear torneo</span>
       </Button>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Crear nuevo torneo</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+      <Modal show={show} onHide={handleClose} title="Crear nuevo torneo">
+          <form onSubmit={handleSubmit}>
             <FormikInputComp
               controlId="TournamentNameId"
               label="Nombre del torneo"
               placeholder="Ej: Torneo de invierno 2025"
-              icon={<TagFill />}
+              icon={<Tag size={18} />}
               value={values.name}
               onChange={handleChange}
               errors={errors.name}
@@ -80,7 +74,7 @@ const CreateTournamentComp = () => {
               controlId="TournamentStartDateId"
               label="Fecha de inicio"
               placeholder="YYYY-MM-DD"
-              icon={<Calendar2Date />}
+              icon={<CalendarDays size={18} />}
               value={values.startDate}
               onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
                 let value = ev.target.value.replace(/[^0-9]/g, "");
@@ -99,7 +93,7 @@ const CreateTournamentComp = () => {
               controlId="TournamentEndDateId"
               label="Fecha de finalización"
               placeholder="YYYY-MM-DD"
-              icon={<Calendar2Date />}
+              icon={<CalendarDays size={18} />}
               value={values.endDate}
               onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
                 let value = ev.target.value.replace(/[^0-9]/g, "");
@@ -118,7 +112,7 @@ const CreateTournamentComp = () => {
               controlId="InscriptionEndDateId"
               label="Último día para inscribirse"
               placeholder="YYYY-MM-DD"
-              icon={<Calendar2Date />}
+              icon={<CalendarDays size={18} />}
               value={values.inscription_date_end}
               onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
                 let value = ev.target.value.replace(/[^0-9]/g, "");
@@ -133,11 +127,10 @@ const CreateTournamentComp = () => {
               errors={errors.inscription_date_end}
               name="inscription_date_end"
             />
-            <Button variant="dark" type="submit" className="w-100">
+            <Button variant="dark" type="submit" className="w-full">
               Crear torneo
             </Button>
-          </Form>
-        </Modal.Body>
+          </form>
       </Modal>
     </>
   );

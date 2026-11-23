@@ -1,7 +1,8 @@
 import useUsers from "../hooks/useUsers";
 import CardComp from "../components/CardComp";
 import useTournaments from "../hooks/useTournaments";
-import { Container, Nav, Spinner } from "react-bootstrap";
+import { Spinner } from "../components/ui/Spinner";
+import { Tabs } from "../components/ui/Tabs";
 import { useState } from "react";
 import {
   MembersNotInTournamentTableComp,
@@ -46,8 +47,8 @@ export default function InscripcionTorneos() {
       text: "En caso de arrepentimiento, luego puede volver a inscribirlo",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#16b800",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#15803d",
+      cancelButtonColor: "#dc2626",
       confirmButtonText: "Si, eliminar",
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
@@ -79,7 +80,7 @@ export default function InscripcionTorneos() {
 
   return (
     <>
-      <div className="d-flex flex-column align-items-center min-vh-60 pt-5">
+      <div className="flex flex-col items-center pt-12">
         <CardComp user={user} color="warning" textColor="dark">
           <SelectTournamentComp
             selectedTournament={selectedTournament}
@@ -91,7 +92,7 @@ export default function InscripcionTorneos() {
           />
         </CardComp>
       </div>
-      <Container>
+      <div className="mx-auto w-full max-w-7xl px-4 pb-8">
         {selectedTournament !== 0 && (
           <FilterScoresComp
             submitFilter={handleFilter}
@@ -99,42 +100,24 @@ export default function InscripcionTorneos() {
           />
         )}
         {condition && (
-          <Nav
-            fill
-            variant="tabs"
-            defaultActiveKey={activeKey}
-            className="mt-3"
-          >
-            <Nav.Item>
-              <Nav.Link
-                eventKey={"registrados"}
-                onClick={() => setActiveKey("registrados")}
-              >
-                Alumnos registrados
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link
-                eventKey={"/inscribir"}
-                onClick={() => setActiveKey("inscribir")}
-              >
-                Alumnos para inscribir
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
+          <Tabs
+            tabs={["Alumnos registrados", "Alumnos para inscribir"]}
+            selectedIndex={activeKey === "registrados" ? 0 : 1}
+            onChange={(i) => setActiveKey(i === 0 ? "registrados" : "inscribir")}
+          />
         )}
         {condition && activeKey === "registrados" ? (
-          <div className="mt-3">
+          <div className="mt-4">
             {loading ? (
-              <div className="d-flex justify-content-center gap-1">
-                <Spinner animation="border" variant="dark" />
-                <h4 className="text-white">Cargando...</h4>
+              <div className="flex justify-center gap-1">
+                <Spinner />
+                <h4 className="text-lg font-semibold text-slate-900">Cargando...</h4>
               </div>
             ) : !membersTournaments ||
               (membersTournaments.length === 0 &&
                 membersTournamentsPagination &&
                 membersTournamentsPagination.total === 0) ? (
-              <h4 className="text-center mt-3">
+              <h4 className="text-lg font-semibold text-center mt-4">
                 No hay alumnos registrados en este torneo
               </h4>
             ) : membersTournaments.length === 0 &&
@@ -168,15 +151,15 @@ export default function InscripcionTorneos() {
             )}
           </div>
         ) : condition && activeKey === "inscribir" ? (
-          <div className="mt-3">
+          <div className="mt-4">
             {loading ? (
-              <div className="d-flex justify-content-center gap-1">
-                <Spinner animation="border" variant="dark" />
-                <h4 className="text-white">Cargando...</h4>
+              <div className="flex justify-center gap-1">
+                <Spinner />
+                <h4 className="text-lg font-semibold text-slate-900">Cargando...</h4>
               </div>
             ) : !membersNotInTournament ||
               membersNotInTournament.length === 0 ? (
-              <h4 className="text-center mt-3">
+              <h4 className="text-lg font-semibold text-center mt-4">
                 No hay alumnos para inscribir al torneo
               </h4>
             ) : (
@@ -200,7 +183,7 @@ export default function InscripcionTorneos() {
         ) : (
           ""
         )}
-      </Container>
+      </div>
     </>
   );
 }

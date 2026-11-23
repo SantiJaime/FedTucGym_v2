@@ -1,13 +1,7 @@
 import { useState } from "react";
-import {
-  CalendarDate,
-  PersonAdd,
-  PersonCircle,
-  Tag,
-} from "react-bootstrap-icons";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { CalendarDays, CircleUser, Tag, UserPlus } from "lucide-react";
+import { Button } from "./ui/Button";
+import { Modal } from "./ui/Modal";
 import useMembers from "../hooks/useMembers";
 import { createMemberValidatorSchema } from "../validation/createMemberValidatorSchema";
 import { OneTwoThreeIcon } from "./Icons";
@@ -75,24 +69,19 @@ const CreateMemberComp: React.FC<Props> = ({ member, onClose }) => {
         <Button
           variant="danger"
           onClick={handleShow}
-          className="d-flex align-items-center gap-2"
         >
-          <PersonAdd />
+          <UserPlus size={18} />
           <span>Crear alumno</span>
         </Button>
       )}
 
-      <Modal show={show} onHide={handleClose} onExited={onClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>{member ? "Editar alumno" : "Crear alumno"}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+      <Modal show={show} onHide={handleClose} onExited={onClose} title={member ? "Editar alumno" : "Crear alumno"}>
+          <form onSubmit={handleSubmit}>
             <FormikInputComp
               controlId="MemberFullNameId"
               label="Nombre completo"
               placeholder="Ej: Juan Perez"
-              icon={<PersonCircle />}
+              icon={<CircleUser size={18} />}
               onChange={handleChange}
               value={values.full_name}
               errors={errors.full_name}
@@ -102,7 +91,7 @@ const CreateMemberComp: React.FC<Props> = ({ member, onClose }) => {
               controlId="MemberBirthDateId"
               label="Fecha de nacimiento"
               placeholder="YYYY-MM-DD"
-              icon={<CalendarDate />}
+              icon={<CalendarDays size={18} />}
               value={values.birth_date}
               name="birth_date"
               errors={errors.birth_date}
@@ -131,7 +120,7 @@ const CreateMemberComp: React.FC<Props> = ({ member, onClose }) => {
               label="Nivel"
               options={LEVELS}
               controlId="MemberLevelId"
-              icon={<Tag />}
+              icon={<Tag size={18} />}
               errors={errors.id_level}
               value={values.id_level}
               onChange={(ev: React.ChangeEvent<HTMLSelectElement>) => {
@@ -145,11 +134,10 @@ const CreateMemberComp: React.FC<Props> = ({ member, onClose }) => {
               name="id_level"
             />
 
-            <Button variant="dark" type="submit" className="w-100">
+            <Button variant="dark" type="submit" className="w-full">
               {member ? "Guardar cambios" : "Crear alumno"}
             </Button>
-          </Form>
-        </Modal.Body>
+          </form>
       </Modal>
     </>
   );
