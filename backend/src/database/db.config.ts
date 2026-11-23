@@ -1,5 +1,6 @@
 import { Pool, types } from "pg";
 import { env } from "../config/env";
+import { IS_PRODUCTION } from "../constants/const";
 
 const DATE_OID = 1082;
 
@@ -11,8 +12,7 @@ const pool = new Pool({
   user: env.PGUSER,
   password: env.PGPASSWORD,
   database: env.PGDATABASE,
-  // shortcut: search_path por opción de conexión; el transaction pooler de Supabase puede rechazarla, pasar a ALTER ROLE ... SET search_path (M4/M5).
-  options: `-c search_path=${env.PGSCHEMA}`,
+  options: !IS_PRODUCTION ? `-c search_path=${env.PGSCHEMA}` : undefined,
   connectionTimeoutMillis: 10_000,
   idleTimeoutMillis: 30_000,
 });
