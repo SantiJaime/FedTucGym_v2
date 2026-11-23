@@ -1,2 +1,2 @@
-// Entrypoint versionado para Vercel: dist/ lo genera `npm run build` (agrega las extensiones .js).
-export { default } from "./dist/app.js";
+// Entrypoint versionado para Vercel: dist/app.mjs lo genera `npm run build` (bundle ESM único).
+export { default } from "./dist/app.mjs";
