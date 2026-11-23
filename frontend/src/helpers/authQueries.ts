@@ -1,5 +1,5 @@
 
-const URL = `${import.meta.env.VITE_URL_BACK_DEPLOY}/users`;
+const URL = `${(import.meta.env.VITE_URL_BACK_DEPLOY ?? "/api")}/users`;
 
 const NETWORK_ERROR =
   "No se pudo conectar con el servidor. Revise su conexión e intente nuevamente";

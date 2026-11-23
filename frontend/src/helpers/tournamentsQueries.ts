@@ -1,6 +1,6 @@
 import { request } from "./authQueries";
 
-const URL = `${import.meta.env.VITE_URL_BACK_DEPLOY}/tournaments`;
+const URL = `${(import.meta.env.VITE_URL_BACK_DEPLOY ?? "/api")}/tournaments`;
 
 export const getTournaments = (): Promise<GetTournamentsResponse> =>
   request(`${URL}/date`);

@@ -2,7 +2,7 @@ import type { LoginFormData } from "../validation/loginValidatorSchema";
 import type { RegisterFormData } from "../validation/registerValidatorSchema";
 import { request } from "./authQueries";
 
-const URL = `${import.meta.env.VITE_URL_BACK_DEPLOY}/users`;
+const URL = `${(import.meta.env.VITE_URL_BACK_DEPLOY ?? "/api")}/users`;
 
 const toUserInfo = (
   raw: MeResponse["user"] | UserInfo
