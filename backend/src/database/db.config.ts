@@ -11,10 +11,8 @@ const pool = new Pool({
   user: env.PGUSER,
   password: env.PGPASSWORD,
   database: env.PGDATABASE,
-  options: `-c search_path=${env.PGSCHEMA}`,
   connectionTimeoutMillis: 10_000,
   idleTimeoutMillis: 30_000,
-  statement_timeout: 30_000,
 });
 
 // Sin este listener, un corte de una conexión inactiva tumba el proceso.
