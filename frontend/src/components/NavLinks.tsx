@@ -1,5 +1,7 @@
 import React from "react";
-import { Button, Spinner } from "react-bootstrap";
+import { Button } from "./ui/Button";
+import { Spinner } from "./ui/Spinner";
+import { buttonClasses } from "./ui/buttonStyles";
 import { NavLink } from "react-router-dom";
 
 interface Props {
@@ -23,14 +25,14 @@ const NavLinks: React.FC<Props> = ({ user, logout, isLoggedIn, logOutLoading }) 
 
   if (!user) {
     return (
-      <NavLink to="/" className={"text-decoration-none btn btn-outline-light"}>
+      <NavLink to="/" className={buttonClasses("outline-light")}>
         Iniciar sesión
       </NavLink>
     );
   }
   const spinner = (
-    <div className="d-flex align-items-center gap-2">
-      <Spinner animation="border" variant="light" size="sm" />
+    <div className="flex items-center gap-2">
+      <Spinner className="size-4" />
       <span>Cerrando sesión...</span>
     </div>
   )
@@ -42,7 +44,7 @@ const NavLinks: React.FC<Props> = ({ user, logout, isLoggedIn, logOutLoading }) 
             <NavLink
               key={index}
               to={nav.to}
-              className={"text-decoration-none btn btn-outline-light"}
+              className={buttonClasses("outline-light")}
             >
               {nav.text}
             </NavLink>

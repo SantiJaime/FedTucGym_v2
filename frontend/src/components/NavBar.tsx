@@ -1,4 +1,3 @@
-import { Navbar, Container, Nav, Image } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import useUsers from "../hooks/useUsers";
 import NavLinks from "./NavLinks";
@@ -11,18 +10,16 @@ function NavbarComp() {
   };
 
   return (
-    <Navbar className="navColor" data-bs-theme="dark" fixed="top">
-      <Container>
-        <Nav className="d-flex justify-content-between align-items-center gap-2 w-100">
-          <NavLink to="/HomePage" className={"text-white text-decoration-none"}>
-            <Image src="/logo_blanco.png" alt="Logo de torneos" width={50} />
-          </NavLink>
-          <div className="d-flex gap-3">
-            <NavLinks user={user} isLoggedIn={isLoggedIn} logout={logout} logOutLoading={logOutLoading} />
-          </div>
-        </Nav>
-      </Container>
-    </Navbar>
+    <header className="fixed inset-x-0 top-0 z-40 bg-brand-700 shadow-soft">
+      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between gap-2 px-4 py-2">
+        <NavLink to="/HomePage" className="text-white">
+          <img src="/logo_blanco.png" alt="Logo de torneos" width={50} />
+        </NavLink>
+        <div className="flex gap-3">
+          <NavLinks user={user} isLoggedIn={isLoggedIn} logout={logout} logOutLoading={logOutLoading} />
+        </div>
+      </nav>
+    </header>
   );
 }
 
