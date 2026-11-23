@@ -1,0 +1,20 @@
+@import "@fontsource-variable/inter";
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+/* Preflight se activa en la Fase 5, cuando Bootstrap ya no esté: hoy pisaría sus estilos */
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-50: #f6f6f6;
+  --color-brand-100: #e7e7e7;
+  --color-brand-500: #6d6a6a;
+  --color-brand-700: #4a4848;
+  --color-brand-900: #2b2a2a;
+  --color-accent-500: #2563eb;
+  --color-accent-600: #1d4ed8;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --shadow-soft: 0 1px 3px rgb(0 0 0 / 0.08), 0 4px 12px rgb(0 0 0 / 0.06);
+}
