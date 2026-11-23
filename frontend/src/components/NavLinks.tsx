@@ -25,7 +25,12 @@ const NavLinks: React.FC<Props> = ({ user, logout, isLoggedIn, logOutLoading }) 
 
   if (!user) {
     return (
-      <NavLink to="/" className={buttonClasses("outline-light")}>
+      <NavLink
+        to="/"
+        className={({ isActive }) =>
+          buttonClasses("outline-light", "md", isActive ? "bg-white text-brand-700" : undefined)
+        }
+      >
         Iniciar sesión
       </NavLink>
     );
