@@ -1,8 +1,7 @@
-import env from "../config/env";
 import { request } from "./authQueries";
 
-const URL = `${env.URL_BACK_DEPLOY}/puntajes`;
-const T_URL = `${env.URL_BACK_DEPLOY}/tournaments`;
+const URL = `${import.meta.env.VITE_URL_BACK_DEPLOY}/puntajes`;
+const T_URL = `${import.meta.env.VITE_URL_BACK_DEPLOY}/tournaments`;
 
 export const redirectToGoogleSheets = (
   id: number

@@ -1,9 +1,8 @@
-import env from "../config/env";
 import type { LoginFormData } from "../validation/loginValidatorSchema";
 import type { RegisterFormData } from "../validation/registerValidatorSchema";
 import { request } from "./authQueries";
 
-const URL = `${env.URL_BACK_DEPLOY}/users`;
+const URL = `${import.meta.env.VITE_URL_BACK_DEPLOY}/users`;
 
 const toUserInfo = (
   raw: MeResponse["user"] | UserInfo
