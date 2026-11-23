@@ -31,9 +31,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="px-4 py-3 text-sm text-neutral-900">
-        &copy; {new Date().getFullYear()} Federación Tucumana de Gimnasia | Todos los derechos reservados
-      </div>
     </footer>
   );
 };
