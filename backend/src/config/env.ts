@@ -19,10 +19,8 @@ const envSchema = z.object({
   COOKIE_SECRET: required("COOKIE_SECRET"),
   NODE_ENV: required("NODE_ENV"),
   SHEETS_SCRIPT_URL: required("SHEETS_SCRIPT_URL"),
-  // shortcut: opcional hasta que doPost valide el secreto; volver a requerido al cerrar S3.
-  SHEETS_SECRET: z.string().optional(),
-  // Sin CRON_SECRET los endpoints de cron rechazan toda petición.
-  CRON_SECRET: z.string().optional(),
+  SHEETS_SECRET: required("SHEETS_SECRET"),
+  CRON_SECRET: required("CRON_SECRET")
 });
 
 const parsed = envSchema.safeParse(process.env);

@@ -1,5 +1,6 @@
 import { Pool, types } from "pg";
 import { env } from "../config/env";
+import { IS_PRODUCTION } from "../constants/const";
 
 const DATE_OID = 1082;
 
@@ -11,6 +12,7 @@ const pool = new Pool({
   user: env.PGUSER,
   password: env.PGPASSWORD,
   database: env.PGDATABASE,
+  options: !IS_PRODUCTION ? `-c search_path=${env.PGSCHEMA}` : undefined,
   connectionTimeoutMillis: 10_000,
   idleTimeoutMillis: 30_000,
 });
