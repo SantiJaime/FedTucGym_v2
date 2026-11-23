@@ -60,7 +60,6 @@ const CreateMemberComp: React.FC<Props> = ({ member, onClose }) => {
     handleChange,
     handleSubmit,
     resetForm,
-    setFieldValue,
   } = formik;
 
   return (
@@ -90,21 +89,13 @@ const CreateMemberComp: React.FC<Props> = ({ member, onClose }) => {
             <FormikInputComp
               controlId="MemberBirthDateId"
               label="Fecha de nacimiento"
+              type="date"
               placeholder="YYYY-MM-DD"
               icon={<CalendarDays size={18} />}
               value={values.birth_date}
               name="birth_date"
               errors={errors.birth_date}
-              onChange={(ev: React.ChangeEvent<HTMLInputElement>) => {
-                let value = ev.target.value.replace (/[^0-9]/g, "");
-
-                if (value.length > 4)
-                  value = `${value.slice(0, 4)}-${value.slice(4)}`;
-                if (value.length > 7)
-                  value = `${value.slice(0, 7)}-${value.slice(7, 9)}`;
-
-                setFieldValue("birth_date", value);
-              }}
+              onChange={handleChange}
             />
             <FormikInputComp
               controlId="MemberDniId"
