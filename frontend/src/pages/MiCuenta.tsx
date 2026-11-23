@@ -5,7 +5,7 @@ export default function MiCuenta() {
   const { user } = useUsers();
 
   return (
-    <div className="d-flex justify-content-center align-items-start min-vh-60 pt-5">
+    <div className="flex items-start justify-center px-4 pt-12">
       <CardComp user={user} color="success" textColor="white" />
     </div>
   );

@@ -1,5 +1,5 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
-import { Bookmark, Search, TagFill } from "react-bootstrap-icons";
+import { Bookmark, Search, Tag } from "lucide-react";
+import { Button } from "./ui/Button";
 import { CATEGORIES, LEVELS } from "../constants/const";
 import { useFormik } from "formik";
 import { FormikSelectComp } from "./FormikInputComp";
@@ -29,18 +29,17 @@ const FilterScoresComp: React.FC<Props> = ({ submitFilter, setFilters }) => {
   const { values, errors, handleSubmit, setFieldValue } = formik;
 
   return (
-    <Form onSubmit={handleSubmit} className="my-3">
+    <form onSubmit={handleSubmit} className="my-3">
       <div>
-        <h5>Filtrar alumnos por categoría y nivel</h5>
-        <hr />
+        <h5 className="text-lg font-semibold">Filtrar alumnos por categoría y nivel</h5>
+        <hr className="my-3 border-slate-200" />
       </div>
-      <Row className="justify-content-center">
+      <div className="grid grid-cols-1 gap-x-3 sm:grid-cols-2 md:mx-auto md:max-w-2xl">
         <FormikSelectComp
-          as={Col}
           controlId="FilterCategoryId"
           label="Categoría"
           options={CATEGORIES}
-          icon={<Bookmark />}
+          icon={<Bookmark size={18} />}
           value={values.id_category}
           onChange={(ev: React.ChangeEvent<HTMLSelectElement>) => {
             setFieldValue("id_category", Number(ev.target.value));
@@ -49,11 +48,10 @@ const FilterScoresComp: React.FC<Props> = ({ submitFilter, setFilters }) => {
           name="id_category"
         />
         <FormikSelectComp
-          as={Col}
           controlId="FilterLevelId"
           label="Nivel"
           options={LEVELS}
-          icon={<TagFill />}
+          icon={<Tag size={18} />}
           value={values.id_level}
           onChange={(ev: React.ChangeEvent<HTMLSelectElement>) => {
             setFieldValue("id_level", Number(ev.target.value));
@@ -61,18 +59,18 @@ const FilterScoresComp: React.FC<Props> = ({ submitFilter, setFilters }) => {
           errors={errors.id_level}
           name="id_level"
         />
-      </Row>
-      <div className="d-flex justify-content-end">
+      </div>
+      <div className="flex justify-end">
         <Button
           type="submit"
           variant="dark"
-          className="d-flex align-items-center gap-1"
+          
         >
           <span>Filtrar</span>
-          <Search />
+          <Search size={18} />
         </Button>
       </div>
-    </Form>
+    </form>
   );
 };
 

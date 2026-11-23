@@ -1,6 +1,6 @@
 import type { FormikHandlers } from "formik";
-import React, { type ElementType, type ReactNode } from "react";
-import { Form, InputGroup } from "react-bootstrap";
+import type { ReactNode } from "react";
+import { Field, Input, Select } from "./ui/Field";
 
 interface InputProps {
   controlId: string;
@@ -11,7 +11,6 @@ interface InputProps {
   value: string | number;
   errors?: string;
   onChange: FormikHandlers["handleChange"];
-  as?: ElementType;
   name: string;
 }
 
@@ -21,7 +20,6 @@ interface SelectProps {
   controlId: string;
   errors?: string;
   icon: ReactNode;
-  as?: ElementType;
   value: number;
   onChange: FormikHandlers["handleChange"];
   name: string;
@@ -36,27 +34,20 @@ export const FormikInputComp: React.FC<InputProps> = ({
   errors,
   onChange,
   value,
-  as,
   name,
-}) => {
-  return (
-    <Form.Group as={as} sm={6} md={3} className="mb-3" controlId={controlId}>
-      <Form.Label>{label}</Form.Label>
-      <InputGroup>
-        <InputGroup.Text id={`InputGroup${controlId}`}>{icon}</InputGroup.Text>
-        <Form.Control
-          placeholder={placeholder}
-          type={type}
-          isInvalid={!!errors}
-          onChange={onChange}
-          value={value}
-          name={name}
-        />
-      </InputGroup>
-      <small className="text-danger">{errors}</small>
-    </Form.Group>
-  );
-};
+}) => (
+  <Field id={controlId} label={label} icon={icon} error={errors}>
+    <Input
+      id={controlId}
+      placeholder={placeholder}
+      type={type}
+      aria-invalid={!!errors}
+      onChange={onChange}
+      value={value}
+      name={name}
+    />
+  </Field>
+);
 
 export const FormikSelectComp: React.FC<SelectProps> = ({
   label,
@@ -64,30 +55,17 @@ export const FormikSelectComp: React.FC<SelectProps> = ({
   controlId,
   errors,
   icon,
-  as,
   value,
   onChange,
   name,
-}) => {
-  return (
-    <Form.Group as={as} sm={6} md={3} className="mb-3" controlId={controlId}>
-      <Form.Label>{label}</Form.Label>
-      <InputGroup>
-        <InputGroup.Text id={`InputGroup${controlId}`}>{icon}</InputGroup.Text>
-        <Form.Select
-          value={value}
-          isInvalid={!!errors}
-          onChange={onChange}
-          name={name}
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Form.Select>
-      </InputGroup>
-      <small className="text-danger">{errors}</small>
-    </Form.Group>
-  );
-};
+}) => (
+  <Field id={controlId} label={label} icon={icon} error={errors}>
+    <Select id={controlId} value={value} aria-invalid={!!errors} onChange={onChange} name={name}>
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </Select>
+  </Field>
+);

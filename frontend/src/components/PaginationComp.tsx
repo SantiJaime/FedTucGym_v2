@@ -1,9 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
-import { Button } from "react-bootstrap";
-import {
-  ArrowLeftCircleFill,
-  ArrowRightCircleFill,
-} from "react-bootstrap-icons";
+import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
+import { Button } from "./ui/Button";
 
 interface Props {
   pagination: Pagination;
@@ -27,14 +24,13 @@ const PaginationComp: React.FC<Props> = ({ pagination, setActualPage, handlePage
     }
   };
   return (
-    <div className="d-flex justify-content-center align-items-center gap-2 mb-3">
+    <div className="mb-3 flex flex-wrap items-center justify-center gap-2">
       <Button
         onClick={goToPreviousPage}
         disabled={pagination.page === 1}
         variant="dark"
-        className="d-flex align-items-center gap-1"
       >
-        <ArrowLeftCircleFill />
+        <ArrowLeftCircle size={18} />
         <span>Anterior</span>
       </Button>
       <span>
@@ -45,10 +41,9 @@ const PaginationComp: React.FC<Props> = ({ pagination, setActualPage, handlePage
         onClick={goToNextPage}
         disabled={pagination.page === pagination.totalPages}
         variant="dark"
-        className="d-flex align-items-center gap-1"
       >
         <span>Siguiente</span>
-        <ArrowRightCircleFill />
+        <ArrowRightCircle size={18} />
       </Button>
     </div>
   );

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Card } from "react-bootstrap";
+import { Card } from "./ui/Card";
 
 interface Props {
   user: UserInfo | null;
@@ -10,31 +10,17 @@ interface Props {
 
 const CardComp: React.FC<Props> = ({ user, color, textColor, children }) => {
   return (
-    <Card
-      bg={color}
-      text={textColor}
-      style={{ width: "35rem" }}
-      className="mb-2"
-    >
-      <Card.Header
-        className="text-center"
-        style={{ fontSize: "1.5rem", fontWeight: "bold" }}
-      >
+    <Card color={color} className={`mb-2 ${textColor === "white" ? "text-white" : "text-slate-900"}`}>
+      <div className="border-b border-black/10 bg-black/10 px-4 py-3 text-center text-2xl font-bold">
         {user?.role}: {user?.full_name}
-      </Card.Header>
-      <Card.Body className="text-center">
-        <Card.Title style={{ fontSize: "1.3rem", fontWeight: "bold" }}>
-          Número de asociado: {user?.userId}
-        </Card.Title>
+      </div>
+      <div className="p-5 text-center">
+        <h2 className="text-xl font-bold">Número de asociado: {user?.userId}</h2>
         {user?.id_category && user.id_category > 1 && (
-          <Card.Text style={{ fontSize: "1.1rem" }}>
-            Categoría: {user.category}
-          </Card.Text>
+          <p className="mt-2 text-lg">Categoría: {user.category}</p>
         )}
-        {children && (
-          <div className="d-flex justify-content-center mt-4">{children}</div>
-        )}
-      </Card.Body>
+        {children && <div className="mt-6 flex justify-center">{children}</div>}
+      </div>
     </Card>
   );
 };

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Spinner } from "react-bootstrap";
+import { Spinner } from "../components/ui/Spinner";
 import { Route, Routes, useLocation } from "react-router-dom";
 import PrivateRoutes from "../components/PrivateRoutes";
 import LazyBoundary from "../components/LazyBoundary";
@@ -21,8 +21,8 @@ const RoutesView = () => {
     <LazyBoundary key={pathname}>
       <Suspense
         fallback={
-          <div className="d-flex justify-content-center mt-5">
-            <Spinner variant="dark" role="status" aria-label="Cargando" />
+          <div className="mt-12 flex justify-center">
+            <Spinner />
           </div>
         }
       >

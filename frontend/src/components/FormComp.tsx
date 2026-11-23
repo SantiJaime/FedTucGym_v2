@@ -1,7 +1,8 @@
 import React from "react";
-import { Button, Form, Spinner } from "react-bootstrap";
+import { Button } from "./ui/Button";
+import { Spinner } from "./ui/Spinner";
 import InputComp from "./InputComp";
-import { EnvelopeAtFill, LockFill, PersonCircle } from "react-bootstrap-icons";
+import { AtSign, CircleUser, Lock } from "lucide-react";
 import {
   type FieldErrors,
   type SubmitHandler,
@@ -31,9 +32,11 @@ interface RegisterProps {
   loading?: boolean;
 }
 
+const FORM_CLASS = "mt-3 rounded-2xl border border-slate-200 bg-white p-5 shadow-soft";
+
 const loadingSpinner = (
-  <div className="d-flex align-items-center justify-content-center gap-2">
-    <Spinner animation="border" variant="light" size="sm" />
+  <div className="flex items-center justify-center gap-2">
+    <Spinner className="size-4" />
     <span>Cargando...</span>
   </div>
 );
@@ -57,14 +60,14 @@ export const RegisterFormComp: React.FC<RegisterProps> = ({
     { label: "Adherente", value: 3 },
   ];
   return (
-    <Form onSubmit={handleSubmit} className="bg-light p-3 rounded-4 mt-3">
-      <h5>Crear una nueva cuenta</h5>
-      <hr />
+    <form onSubmit={handleSubmit} className={FORM_CLASS}>
+      <h5 className="text-lg font-semibold">Crear una nueva cuenta</h5>
+      <hr className="my-3 border-slate-200" />
       <FormikInputComp
         controlId="FullNameId"
         label="Nombre completo"
         placeholder="Ej: Juan Pérez"
-        icon={<PersonCircle />}
+        icon={<CircleUser size={18} />}
         value={values.full_name}
         onChange={handleChange}
         name="full_name"
@@ -75,7 +78,7 @@ export const RegisterFormComp: React.FC<RegisterProps> = ({
         label="Contraseña"
         placeholder="************"
         type="password"
-        icon={<LockFill />}
+        icon={<Lock size={18} />}
         value={values.password}
         onChange={handleChange}
         errors={errors.password}
@@ -85,7 +88,7 @@ export const RegisterFormComp: React.FC<RegisterProps> = ({
         controlId="RegisterRoleId"
         options={ROLES_OPTIONS}
         label="Rol del usuario"
-        icon={<PersonCircle />}
+        icon={<CircleUser size={18} />}
         value={values.id_role}
         onChange={(ev: React.ChangeEvent<HTMLSelectElement>) => {
           handleChange({
@@ -103,7 +106,7 @@ export const RegisterFormComp: React.FC<RegisterProps> = ({
           controlId="RegisterCategoryId"
           options={CATEGORIES_OPTIONS}
           label="Categoría del gimnasio"
-          icon={<PersonCircle />}
+          icon={<CircleUser size={18} />}
           value={values.id_category}
           onChange={(ev: React.ChangeEvent<HTMLSelectElement>) => {
             handleChange({
@@ -117,12 +120,12 @@ export const RegisterFormComp: React.FC<RegisterProps> = ({
           name="id_category"
         />
       )}
-      <div className="d-flex justify-content-end">
+      <div className="flex justify-end">
         <Button type="submit" variant="dark" disabled={loading}>
           {loading ? loadingSpinner : "Crear cuenta"}
         </Button>
       </div>
-    </Form>
+    </form>
   );
 };
 export const LoginFormComp: React.FC<LoginProps> = ({
@@ -134,17 +137,14 @@ export const LoginFormComp: React.FC<LoginProps> = ({
   setValue,
 }) => {
   return (
-    <Form
-      onSubmit={handleSubmit(onSubmit)}
-      className="bg-light p-3 rounded-4 mt-3"
-    >
-      <h5>Iniciar sesión</h5>
-      <hr />
+    <form onSubmit={handleSubmit(onSubmit)} className={FORM_CLASS}>
+      <h5 className="text-lg font-semibold">Iniciar sesión</h5>
+      <hr className="my-3 border-slate-200" />
       <InputComp
         controlId="LoginFullnameId"
         label="Nombre completo"
         placeholder="Juan Pérez"
-        icon={<EnvelopeAtFill />}
+        icon={<AtSign size={18} />}
         register={register("full_name")}
         error={errors.full_name?.message}
         autoComplete="full_name"
@@ -156,18 +156,18 @@ export const LoginFormComp: React.FC<LoginProps> = ({
         label="Contraseña"
         placeholder="************"
         type="password"
-        icon={<LockFill />}
+        icon={<Lock size={18} />}
         register={register("password")}
         error={errors.password?.message}
         autoComplete="current-password"
         setValue={setValue}
         name="password"
       />
-      <div className="d-flex justify-content-end">
+      <div className="flex justify-end">
         <Button type="submit" variant="dark" disabled={loading}>
           {loading ? loadingSpinner : "Iniciar sesión"}
         </Button>
       </div>
-    </Form>
+    </form>
   );
 };
