@@ -44,7 +44,9 @@ const NavLinks: React.FC<Props> = ({ user, logout, isLoggedIn, logOutLoading }) 
             <NavLink
               key={index}
               to={nav.to}
-              className={buttonClasses("outline-light")}
+              className={({ isActive }) =>
+                buttonClasses("outline-light", "md", isActive ? "bg-white text-brand-700" : undefined)
+              }
             >
               {nav.text}
             </NavLink>
