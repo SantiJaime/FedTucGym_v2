@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 interface Props {
   show: boolean;
   onHide: () => void;
-  /** Se llama al terminar la animación de salida (equivale a onExited de react-bootstrap) */
+  /** Se llama al terminar la animación de salida */
   onExited?: () => void;
   title: string;
   children: ReactNode;

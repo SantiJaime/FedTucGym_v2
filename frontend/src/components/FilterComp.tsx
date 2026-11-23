@@ -141,7 +141,7 @@ const FilterComp: React.FC<Props> = ({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className={cn("rounded-xl p-3", cardTones[color], textColor === "white" ? "text-white" : "text-slate-900")}>
           <h6 className="underline">¡Importante!</h6>
-          <p>
+          <p className="mt-1">
             Si desea obtener todos los alumnos, deje los campos en blanco y
             presione en <b>Filtrar 🔍</b>
           </p>

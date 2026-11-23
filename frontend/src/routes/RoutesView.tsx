@@ -92,7 +92,7 @@ const RoutesView = () => {
           </PrivateRoutes>
         }
       />
-      <Route path="*" element={<h1>404</h1>} />
+      <Route path="*" element={<h1 className="mt-12 text-center text-4xl font-bold">404</h1>} />
     </Routes>
       </Suspense>
     </LazyBoundary>
