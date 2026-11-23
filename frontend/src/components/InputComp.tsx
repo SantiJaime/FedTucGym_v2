@@ -1,8 +1,9 @@
 import { useState, type ReactNode } from "react";
 import type { UseFormRegisterReturn, UseFormSetValue } from "react-hook-form";
-import { Button, Form, InputGroup } from "react-bootstrap";
-import { Eye, EyeSlash } from "react-bootstrap-icons";
+import { Eye, EyeOff } from "lucide-react";
 import type { LoginFormData } from "../validation/loginValidatorSchema";
+import { Field, Input } from "./ui/Field";
+import { Button } from "./ui/Button";
 
 interface Props {
   controlId: string;
@@ -38,36 +39,38 @@ const InputComp: React.FC<Props> = ({
   const isPassword = type === "password";
   const inputType = isPassword && showPassword ? "text" : type;
   return (
-    <Form.Group className="mb-3" controlId={controlId}>
-      <Form.Label>{label}</Form.Label>
-      <InputGroup>
-        <InputGroup.Text id={`InputGroup${controlId}`}>{icon}</InputGroup.Text>
-        <Form.Control
-          placeholder={placeholder}
-          type={inputType}
-          {...register}
-          isInvalid={!!error}
-          onChange={onChange}
-          value={value}
-          autoComplete={autoComplete}
-          name={name}
-          onInput={(ev) =>
-            setValue?.(name as keyof LoginFormData, ev.currentTarget.value)
-          }
-        />
-        {isPassword && (
+    <Field
+      id={controlId}
+      label={label}
+      icon={icon}
+      error={error}
+      end={
+        isPassword && (
           <Button
             variant="outline-secondary"
             onClick={() => setShowPassword((prevState) => !prevState)}
-            type="button"
+            aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+            className="rounded-none border-0 border-l"
             tabIndex={-1}
           >
-            {showPassword ? <EyeSlash /> : <Eye />}
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </Button>
-        )}
-      </InputGroup>
-      <small className="text-danger">{error}</small>
-    </Form.Group>
+        )
+      }
+    >
+      <Input
+        id={controlId}
+        placeholder={placeholder}
+        type={inputType}
+        {...register}
+        aria-invalid={!!error}
+        onChange={onChange}
+        value={value}
+        autoComplete={autoComplete}
+        name={name}
+        onInput={(ev) => setValue?.(name as keyof LoginFormData, ev.currentTarget.value)}
+      />
+    </Field>
   );
 };
 

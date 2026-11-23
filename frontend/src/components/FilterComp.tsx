@@ -1,5 +1,7 @@
-import { Button, Col, Form, Row } from "react-bootstrap";
-import { Bookmark, PersonCircle, Search, TagFill } from "react-bootstrap-icons";
+import { Bookmark, CircleUser, Search, Tag } from "lucide-react";
+import { Button } from "./ui/Button";
+import { cardTones } from "./ui/cardTones";
+import { cn } from "../lib/utils";
 import { OneTwoThreeIcon } from "./Icons";
 import { CATEGORIES, LEVELS } from "../constants/const";
 import {
@@ -52,21 +54,19 @@ const FilterComp: React.FC<Props> = ({
   const { values, errors, handleChange, handleSubmit } = formik;
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Row>
+    <form onSubmit={handleSubmit}>
+      <div className="grid grid-cols-1 gap-x-3 sm:grid-cols-2 md:grid-cols-4">
         <FormikInputComp
-          as={Col}
           controlId="FilterNameId"
           label="Nombre completo (o parcial)"
           placeholder="Ej: Juan"
-          icon={<PersonCircle />}
+          icon={<CircleUser size={18} />}
           value={values.full_name}
           onChange={handleChange}
           errors={errors.full_name}
           name="full_name"
         />
         <FormikInputComp
-          as={Col}
           controlId="FilterDniId"
           label="DNI completo"
           placeholder="Ej: 12345678"
@@ -77,11 +77,10 @@ const FilterComp: React.FC<Props> = ({
           name="dni"
         />
         <FormikSelectComp
-          as={Col}
           controlId="FilterCategoryId"
           label="Categoría"
           options={CATEGORIES}
-          icon={<Bookmark />}
+          icon={<Bookmark size={18} />}
           value={values.id_category}
           onChange={(ev: React.ChangeEvent<HTMLSelectElement>) => {
             handleChange({
@@ -95,11 +94,10 @@ const FilterComp: React.FC<Props> = ({
           name="id_category"
         />
         <FormikSelectComp
-          as={Col}
           controlId="FilterLevelId"
           label="Nivel"
           options={LEVELS}
-          icon={<TagFill />}
+          icon={<Tag size={18} />}
           value={values.id_level}
           onChange={(ev: React.ChangeEvent<HTMLSelectElement>) => {
             handleChange({
@@ -114,7 +112,6 @@ const FilterComp: React.FC<Props> = ({
         />
         {gyms && user && user.role === "Administrador" ? (
           <FormikSelectComp
-            as={Col}
             controlId="FilterGymId"
             label="Gimnasio"
             options={[
@@ -124,7 +121,7 @@ const FilterComp: React.FC<Props> = ({
                 label: gym.full_name,
               })),
             ]}
-            icon={<PersonCircle />}
+            icon={<CircleUser size={18} />}
             value={values.id_gym}
             onChange={(ev: React.ChangeEvent<HTMLSelectElement>) => {
               handleChange({
@@ -140,11 +137,11 @@ const FilterComp: React.FC<Props> = ({
         ) : (
           ""
         )}
-      </Row>
-      <div className="d-flex justify-content-between align-items-center">
-        <div className={`bg-${color} p-2 rounded-4 text-${textColor}`}>
-          <h6 className="text-decoration-underline">¡Importante!</h6>
-          <p>
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className={cn("rounded-xl p-3", cardTones[color], textColor === "white" ? "text-white" : "text-slate-900")}>
+          <h6 className="underline">¡Importante!</h6>
+          <p className="mt-1">
             Si desea obtener todos los alumnos, deje los campos en blanco y
             presione en <b>Filtrar 🔍</b>
           </p>
@@ -152,13 +149,13 @@ const FilterComp: React.FC<Props> = ({
         <Button
           type="submit"
           variant="dark"
-          className="d-flex align-items-center gap-1"
+          
         >
           <span>Filtrar</span>
-          <Search />
+          <Search size={18} />
         </Button>
       </div>
-    </Form>
+    </form>
   );
 };
 

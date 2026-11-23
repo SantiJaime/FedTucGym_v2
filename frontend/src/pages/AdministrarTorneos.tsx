@@ -1,4 +1,4 @@
-import { Container, Spinner } from "react-bootstrap";
+import { Spinner } from "../components/ui/Spinner";
 import CreateTournamentComp from "../components/CreateTournamentComp";
 import useTournaments from "../hooks/useTournaments";
 import { TournamentsTableComp } from "../components/TableComp";
@@ -13,8 +13,8 @@ const AdministrarTorneos = () => {
       text: "Esta acción no se puede deshacer",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#16b800",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#15803d",
+      cancelButtonColor: "#dc2626",
       confirmButtonText: "Si, eliminar",
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
@@ -25,23 +25,23 @@ const AdministrarTorneos = () => {
   };
 
   return (
-    <Container className="mt-5">
-      <div className="d-flex justify-content-between">
-        <h2>Administrar torneos</h2>
+    <div className="mx-auto mt-12 w-full max-w-7xl px-4 pb-8">
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-semibold">Administrar torneos</h2>
         <CreateTournamentComp />
       </div>
-      <p>
+      <p className="my-2">
         Aquí se mostrarán todos los torneos próximos y los nuevos que se vayan
         creando
       </p>
-      <hr />
+      <hr className="my-4 border-slate-300" />
       {loading ? (
-        <div className="d-flex justify-content-center gap-2">
-          <Spinner animation="border" variant="dark"/>
-          <h4>Cargando...</h4>
+        <div className="flex justify-center gap-2">
+          <Spinner />
+          <h4 className="text-lg font-semibold">Cargando...</h4>
         </div>
       ) : !tournaments || tournaments.length === 0 ? (
-        <h3>No existen torneos próximos</h3>
+        <h3 className="text-xl font-semibold">No existen torneos próximos</h3>
       ) : (
         <TournamentsTableComp
           tournaments={tournaments}
@@ -54,7 +54,7 @@ const AdministrarTorneos = () => {
           onClickDelete={deleteTournament}
         />
       )}
-    </Container>
+    </div>
   );
 };
 

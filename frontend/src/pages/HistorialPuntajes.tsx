@@ -1,7 +1,7 @@
 import useUsers from "../hooks/useUsers";
 import CardComp from "../components/CardComp";
 import useTournaments from "../hooks/useTournaments";
-import { Button } from "react-bootstrap";
+import { Button } from "../components/ui/Button";
 import { OneTwoThreeIcon } from "../components/Icons";
 import useScores from "../hooks/useScores";
 import SelectTournamentComp from "../components/SelectTournamentComp";
@@ -27,7 +27,7 @@ const HistorialPuntajes = () => {
 
   if (!pastTournaments || pastTournaments.length === 0) {
     return (
-      <div className="d-flex justify-content-center align-items-start min-vh-60 pt-5">
+      <div className="flex justify-center items-start pt-12">
         <CardComp user={user} color="dark" textColor="white">
           <Button variant="outline-light" disabled>
             {loading ? "Cargando..." : "No hay torneos disponibles"}
@@ -38,9 +38,9 @@ const HistorialPuntajes = () => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-start min-vh-60 pt-5">
+    <div className="flex justify-center items-start pt-12">
       <CardComp user={user} color="dark" textColor="white">
-        <div className="d-flex flex-column gap-2">
+        <div className="flex flex-col gap-2">
           <SelectTournamentComp
             handleLoadMoreTournaments={handleLoadMoreTournaments}
             tournaments={pastTournaments}
@@ -53,7 +53,7 @@ const HistorialPuntajes = () => {
             onClick={() => redirect(selectedTournament)}
             variant="outline-light"
             disabled={selectedTournament === 0}
-            className="d-flex justify-content-center align-items-center gap-1"
+            className="flex justify-center items-center gap-1"
           >
             <OneTwoThreeIcon />
             <span>Ver puntajes</span>

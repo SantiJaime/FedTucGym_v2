@@ -1,4 +1,3 @@
-import { ListGroup } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import useUsers from "../hooks/useUsers";
 
@@ -57,26 +56,19 @@ const Menu = () => {
   const options = (user && OPTIONS_BY_ROLE[user.role]) || [];
 
   return (
-    <div
-      className="d-flex flex-column align-items-center justify-content-center"
-      style={{ height: "65vh" }}
-    >
-      <ListGroup
-        variant="flush"
-        className="rounded-4 bg-white py-2 overflow-hidden"
-        style={{ width: "50%", maxWidth: 800 }}
-      >
+    <div className="flex h-[65vh] flex-col items-center justify-center px-4">
+      <div className="w-full max-w-[800px] overflow-hidden rounded-2xl bg-white py-2 shadow-soft md:w-1/2">
         {options.map((opcion) => (
-          <ListGroup.Item
+          <button
             key={opcion.ruta}
-            action
+            type="button"
             onClick={() => navigate(opcion.ruta)}
-            className="text-center fw-bold border-0 py-2"
+            className="block w-full cursor-pointer px-4 py-2 text-center font-bold transition-colors hover:bg-brand-100 focus-visible:bg-brand-100 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-accent-500"
           >
             {opcion.nombre}
-          </ListGroup.Item>
+          </button>
         ))}
-      </ListGroup>
+      </div>
     </div>
   );
 };

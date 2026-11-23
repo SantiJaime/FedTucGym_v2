@@ -1,5 +1,6 @@
-import { Button, Table } from "react-bootstrap";
-import { ClipboardPlusFill, PencilSquare, Trash3Fill } from "react-bootstrap-icons";
+import { ClipboardPlus, SquarePen, Trash2 } from "lucide-react";
+import { Button } from "./ui/Button";
+import { Table } from "./ui/Table";
 
 interface MembersProps {
   members: FullMemberInfo[];
@@ -39,7 +40,7 @@ export const MembersTableComp: React.FC<MembersProps> = ({
   onClickRegister,
 }) => {
   return (
-    <Table striped bordered hover responsive>
+    <Table>
       <thead>
         <tr className="text-center">
           {headers.map((option) => (
@@ -50,42 +51,39 @@ export const MembersTableComp: React.FC<MembersProps> = ({
       <tbody>
         {members?.map((member) => (
           <tr key={member.id}>
-            <td>{member.dni}</td>
-            <td>{member.full_name}</td>
-            <td>
+            <td data-label={headers[0]}>{member.dni}</td>
+            <td data-label={headers[1]}>{member.full_name}</td>
+            <td data-label={headers[2]}>
               {member.birth_date} | {member.age} años
             </td>
-            <td>{member.gym}</td>
-            <td>{member.category}</td>
-            <td className="text-center">{member.level}</td>
-            <td>
+            <td data-label={headers[3]}>{member.gym}</td>
+            <td data-label={headers[4]}>{member.category}</td>
+            <td data-label={headers[5]} className="text-center">{member.level}</td>
+            <td data-label={headers[6]}>
               {!actions ? (
-                <div className="d-flex justify-content-evenly">
+                <div className="flex justify-evenly gap-2">
                   <Button
                     variant="info"
-                    className="d-flex align-items-center gap-2"
                     onClick={() => onClickEdit?.(member)}
                   >
-                    <PencilSquare />
+                    <SquarePen size={18} />
                     <span>Editar</span>
                   </Button>
                   <Button
                     variant="danger"
-                    className="d-flex align-items-center gap-1"
                     onClick={() => onClickDelete(member.id)}
                   >
-                    <Trash3Fill />
+                    <Trash2 size={18} />
                     <span>Eliminar</span>
                   </Button>
                 </div>
               ) : (
-                <div className="d-flex justify-content-center">
+                <div className="flex justify-center">
                   <Button
                     variant="warning"
-                    className="d-flex align-items-center gap-1"
                     onClick={() => onClickRegister(member)}
                   >
-                    <ClipboardPlusFill />
+                    <ClipboardPlus size={18} />
                     <span>Inscribir al torneo</span>
                   </Button>
                 </div>
@@ -103,7 +101,7 @@ export const MembersNotInTournamentTableComp: React.FC<MembersProps> = ({
   onClickRegister,
 }) => {
   return (
-    <Table striped bordered hover responsive>
+    <Table>
       <thead>
         <tr className="text-center">
           {headers.map((option) => (
@@ -114,17 +112,16 @@ export const MembersNotInTournamentTableComp: React.FC<MembersProps> = ({
       <tbody>
         {members?.map((member) => (
           <tr key={member.id}>
-            <td>{member.dni}</td>
-            <td>{member.full_name}</td>
-            <td>{member.gym}</td>
-            <td>
-              <div className="d-flex justify-content-center">
+            <td data-label={headers[0]}>{member.dni}</td>
+            <td data-label={headers[1]}>{member.full_name}</td>
+            <td data-label={headers[2]}>{member.gym}</td>
+            <td data-label={headers[3]}>
+              <div className="flex justify-center">
                 <Button
                   variant="warning"
-                  className="d-flex align-items-center gap-1"
                   onClick={() => onClickRegister(member)}
                 >
-                  <ClipboardPlusFill />
+                  <ClipboardPlus size={18} />
                   <span>Inscribir al torneo</span>
                 </Button>
               </div>
@@ -155,7 +152,7 @@ export const TournamentsTableComp: React.FC<TournamentsProps> = ({
   }
 
   return (
-    <Table striped bordered hover responsive>
+    <Table>
       <thead>
         <tr className="text-center">
           {headers.map((option) => (
@@ -166,19 +163,18 @@ export const TournamentsTableComp: React.FC<TournamentsProps> = ({
       <tbody>
         {tournaments?.map((tournament) => (
           <tr key={tournament.id}>
-            <td>{tournament.name}</td>
-            <td className="text-center">
+            <td data-label={headers[0]}>{tournament.name}</td>
+            <td data-label={headers[1]} className="text-center">
               {formatDateRange(tournament.date_range)}
             </td>
-            <td className="text-center">{tournament.inscription_date_end}</td>
-            <td>
-              <div className="d-flex justify-content-center">
+            <td data-label={headers[2]} className="text-center">{tournament.inscription_date_end}</td>
+            <td data-label={headers[3]}>
+              <div className="flex justify-center">
                 <Button
                   variant="danger"
-                  className="d-flex align-items-center gap-1"
                   onClick={() => onClickDelete(tournament.id)}
                 >
-                  <Trash3Fill />
+                  <Trash2 size={18} />
                   <span>Eliminar</span>
                 </Button>
               </div>
@@ -196,7 +192,7 @@ export const MembersTournamentsTableComp: React.FC<MembersTournamentsProps> = ({
   onClickDelete,
 }) => {
   return (
-    <Table striped bordered hover responsive>
+    <Table>
       <thead>
         <tr className="text-center">
           {headers.map((option) => (
@@ -207,20 +203,19 @@ export const MembersTournamentsTableComp: React.FC<MembersTournamentsProps> = ({
       <tbody>
         {membersTournaments?.map((mt) => (
           <tr key={mt.id_member}>
-            <td>{mt.dni}</td>
-            <td>{mt.full_name}</td>
-            <td>{mt.gym}</td>
-            <td>
-              <div className="d-flex justify-content-center">
+            <td data-label={headers[0]}>{mt.dni}</td>
+            <td data-label={headers[1]}>{mt.full_name}</td>
+            <td data-label={headers[2]}>{mt.gym}</td>
+            <td data-label={headers[3]}>
+              <div className="flex justify-center">
                 {onClickDelete && (
                   <Button
                     variant="danger"
-                    className="d-flex align-items-center gap-1"
                     onClick={() =>
                       onClickDelete(mt.id_member, mt.id_tournament)
                     }
                   >
-                    <Trash3Fill />
+                    <Trash2 size={18} />
                     <span>
                       Eliminar
                     </span>
@@ -237,7 +232,7 @@ export const MembersTournamentsTableComp: React.FC<MembersTournamentsProps> = ({
 
 export const ScoresTableComp: React.FC<ScoresProps> = ({ headers, scores }) => {
   return (
-    <Table striped bordered hover responsive>
+    <Table>
       <thead>
         <tr className="text-center">
           {headers.map((option) => (
@@ -248,10 +243,10 @@ export const ScoresTableComp: React.FC<ScoresProps> = ({ headers, scores }) => {
       <tbody>
         {scores.map((score) => (
           <tr key={score.id}>
-            <td>{score.member_dni}</td>
-            <td>{score.member_name}</td>
-            <td>{score.gym}</td>
-            <td className="text-center">{score.puntaje}</td>
+            <td data-label={headers[0]}>{score.member_dni}</td>
+            <td data-label={headers[1]}>{score.member_name}</td>
+            <td data-label={headers[2]}>{score.gym}</td>
+            <td data-label={headers[3]} className="text-center">{score.puntaje}</td>
           </tr>
         ))}
       </tbody>

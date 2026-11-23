@@ -1,59 +1,35 @@
-import { EnvelopeAt } from "react-bootstrap-icons";
-import "../styles/Footer.css"; // Archivo CSS para los estilos
-import { FacebookIcon, InstagramIcon } from "./Icons";
+import { Mail } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Col, Image, Row } from "react-bootstrap";
+import { buttonClasses } from "./ui/buttonStyles";
+
+const title = "text-2xl font-semibold text-neutral-100 max-sm:text-xl";
 
 const Footer = () => {
   return (
-    <footer className="footer">
-      <Row className="footer-content">
-        <Col md={4} sm={12} className="footer-section logo">
-          <Image
+    <footer className="bg-neutral-400 text-center text-white">
+      <div className="grid grid-cols-1 items-center gap-2 bg-brand-700 p-3 md:grid-cols-2 md:p-4">
+        <div className="p-2">
+          <img
             src="/logo_blanco.png"
             alt="Logo Federación Tucumana de Gimnasia"
             width={200}
-            fluid
+            className="mx-auto h-auto max-w-full"
           />
-        </Col>
-        <Col
-          md={4}
-          sm={12}
-          className="footer-section d-flex flex-column align-items-center"
-        >
-          <h1 className="logo-text">Federación Tucumana de Gimnasia</h1>
-          <p className="footer-text d-flex flex-column align-items-center">
+        </div>
+        <div className="flex flex-col items-center p-2">
+          <h1 className={title}>Federación Tucumana de Gimnasia</h1>
+          <p className="flex flex-col items-center p-5 font-bold uppercase">
             <span>Gimnasia artística femenina y masculina</span>
             <span>Gimnasia Rítmica</span>
           </p>
-          <div className="d-flex align-items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             Contacto:
-            <Link
-              to={"mailto:fedetucdegimnasia@gmail.com"}
-              className="btn btn-outline-light d-flex align-items-center justify-content-center gap-1"
-            >
-              <EnvelopeAt />
+            <Link to="mailto:fedetucdegimnasia@gmail.com" className={buttonClasses("outline-light")}>
+              <Mail size={18} aria-hidden="true" />
               <span>fedetucdegimnasia@gmail.com</span>
             </Link>
           </div>
-        </Col>
-        <Col md={4} sm={12} className="footer-section social ">
-          <h1 className="logo-text">Redes sociales</h1>
-          <div className="social-links">
-            <Link
-              to={"https://www.facebook.com/profile.php?id=100066369534804"}
-            >
-              <FacebookIcon className="facebook-icon" />
-            </Link>
-            <Link to={"https://www.instagram.com/fedtucdegimnasia"}>
-              <InstagramIcon className="instagram-icon" />
-            </Link>
-          </div>
-        </Col>
-      </Row>
-      <div className="footer-bottom">
-        &copy; {new Date().getFullYear()} Federación Tucumana de Gimnasia |
-        Todos los derechos reservados
+        </div>
       </div>
     </footer>
   );

@@ -1,4 +1,5 @@
-import { Form, Spinner } from "react-bootstrap";
+import { Spinner } from "./ui/Spinner";
+import { Select } from "./ui/Field";
 
 interface Props {
   selectedTournament: number;
@@ -29,15 +30,17 @@ const SelectTournamentComp: React.FC<Props> = ({
   return (
     <>
       {loading ? (
-        <div className="d-flex justify-content-center gap-1">
-          <Spinner animation="border" variant="light" size="sm" />
+        <div className="flex items-center justify-center gap-1">
+          <Spinner className="size-4" />
           <h6 className="text-white">Cargando...</h6>
         </div>
       ) : !tournaments || tournaments.length === 0 ? (
         <p>No hay torneos disponibles</p>
       ) : (
-        <Form>
-          <Form.Select
+        <form>
+          <Select
+            className="rounded-lg border border-slate-300 text-slate-900"
+            aria-label="Torneo"
             value={selectedTournament}
             onChange={(ev) => handleChange(ev)}
           >
@@ -50,8 +53,8 @@ const SelectTournamentComp: React.FC<Props> = ({
             {paginationInfo && paginationInfo.hasMore && (
               <option value={-1}>Cargar más torneos</option>
             )}
-          </Form.Select>
-        </Form>
+          </Select>
+        </form>
       )}
     </>
   );

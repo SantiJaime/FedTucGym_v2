@@ -1,4 +1,3 @@
-import { Container, Image } from "react-bootstrap";
 import { registerValidatorSchema} from "../validation/registerValidatorSchema";
 import { RegisterFormComp } from "../components/FormComp";
 import useUsers from "../hooks/useUsers";
@@ -28,12 +27,12 @@ const RegisterPage = () => {
   const { values, errors, handleChange, handleSubmit, resetForm } = formik;
 
   return (
-    <Container className="my-5 d-flex justify-content-center flex-column align-items-center">
-      <div className="d-flex flex-column align-items-center justify-content-center">
-        <Image src="/logo_negro.png" alt="Logo de torneos" width={300} />
-        <h3>Administración de torneos - Federación Tucumana de Gimnasia</h3>
+    <div className="mx-auto my-12 flex max-w-7xl flex-col items-center justify-center px-4">
+      <div className="flex flex-col items-center justify-center text-center">
+        <img src="/logo_negro.png" alt="Logo de torneos" width={300} className="max-w-full" />
+        <h3 className="text-2xl font-semibold">Administración de torneos - Federación Tucumana de Gimnasia</h3>
       </div>
-      <div className="w-75">
+      <div className="w-full md:w-3/4">
         <RegisterFormComp
           errors={errors}
           handleSubmit={handleSubmit}
@@ -41,7 +40,7 @@ const RegisterPage = () => {
           handleChange={handleChange}
         />
       </div>
-    </Container>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
+import { Spinner } from "./ui/Spinner";
 import { useUserContext } from "../hooks/useUserContext";
 
 interface Props {
@@ -12,8 +12,8 @@ const PrivateRoutes: React.FC<Props> = ({ children, role }) => {
 
   if (isInitializing) {
     return (
-      <div className="d-flex justify-content-center my-5">
-        <Spinner animation="border" />
+      <div className="my-12 flex justify-center">
+        <Spinner />
       </div>
     );
   }
