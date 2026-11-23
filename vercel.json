@@ -5,12 +5,13 @@
       "root": "backend",
       "framework": "express",
       "entrypoint": "server.mjs",
-      "installCommand": "npm ci",
+      "installCommand": "npm ci --include=dev",
       "buildCommand": "npm run build"
     },
     "frontend": {
       "root": "frontend",
       "framework": "vite",
+      "installCommand": "npm ci --include=dev",
       "rewrites": [{ "source": "/((?!.*\\.).*)", "destination": "/index.html" }],
       "headers": [
         {
