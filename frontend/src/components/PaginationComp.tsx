@@ -24,7 +24,7 @@ const PaginationComp: React.FC<Props> = ({ pagination, setActualPage, handlePage
     }
   };
   return (
-    <div className="mb-3 flex flex-wrap items-center justify-center gap-2">
+    <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
       <Button
         onClick={goToPreviousPage}
         disabled={pagination.page === 1}

@@ -35,7 +35,7 @@ function NavbarComp() {
           id="menu-principal"
           onClick={() => setOpen(false)}
           className={cn(
-            "w-full flex-col gap-2 max-sm:[&>*]:w-full sm:flex sm:w-auto sm:flex-row sm:gap-3",
+            "w-full flex-col gap-2 max-sm:*:w-full sm:flex sm:w-auto sm:flex-row sm:gap-3",
             open ? "flex" : "hidden",
           )}
         >
