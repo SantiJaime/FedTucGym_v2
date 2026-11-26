@@ -19,10 +19,31 @@ const HistorialPuntajes = () => {
       toast.error("Debe seleccionar un torneo");
       return;
     }
+    const toastId = toast.loading("Abriendo la hoja de puntajes...");
     const res = await handleRedirect(id);
-    if (res?.scriptUrl) {
-      window.open(res.scriptUrl, "_blank");
+    if (!res?.scriptUrl) {
+      toast.dismiss(toastId); // handleRedirect ya mostró el error
+      return;
     }
+    window.open(res.scriptUrl, "_blank");
+    toast.success(
+      <span>
+        <b>Abriendo la hoja de puntajes...</b>
+        <br />
+        En caso de que la hoja no se abra, podés visualizarla en el siguiente
+        enlace:
+        <br />
+        <a
+          href={res.scriptUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ fontWeight: "bold", textDecoration: "underline" }}
+        >
+          Ver puntajes
+        </a>
+      </span>,
+      { id: toastId, duration: 10000 }
+    );
   };
 
   if (!pastTournaments || pastTournaments.length === 0) {
